@@ -13,6 +13,7 @@
       padding: 18px;
       color: #222;
       line-height: 1.45;
+      background: #fafafa;
     }
 
     header { text-align: left; margin-bottom: 18px; }
@@ -29,10 +30,10 @@
 
     .row { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
     .col-left { flex: 1 1 320px; min-width:240px; }
-    .col-right { width: 260px; flex-shrink:0; text-align:center; }
+    .col-right { width: 220px; flex-shrink:0; text-align:center; }
 
-    .icon-wrap { margin: 0 auto 8px auto; }
-    #affiliateBanner img { width: 80px; height: auto; display:block; margin:0 auto; }
+    .icon-wrap { margin: 0 auto 8px auto; display:flex; justify-content:center; align-items:center; }
+    #affiliateBanner img { width: 56px; height: auto; display:block; margin:0 auto; }
 
     .cta {
       display:block;
@@ -92,7 +93,7 @@
       </div>
 
       <div class="col-right">
-        <div class="icon-wrap">
+        <div class="icon-wrap" aria-hidden="false">
           <a href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer" title="Shop on Amazon and support DealPal">
             <img src="icons/going-to-work.png" alt="Shop on Amazon (supports DealPal)">
           </a>
@@ -129,7 +130,7 @@
 
   <footer>
     <div style="font-weight:600;margin-bottom:6px">Contact</div>
-    <div class="muted">Support and feedback: <a href="mailto:francis@dealpal.example">francis@dealpal.example</a></div>
+    <div class="muted">Support and feedback: <a href="mailto:FrancisErdman@mailfence.com">FrancisErdman@mailfence.com</a></div>
     <div class="muted" style="margin-top:6px">© DealPal</div>
   </footer>
 </body>
