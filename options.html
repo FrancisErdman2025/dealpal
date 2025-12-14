@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head><meta charset="utf-8"><title>DealPal Options</title></head>
+  <body style="font-family:Arial,Helvetica,sans-serif;padding:12px;">
+    <h3>DealPal Options</h3>
+    <div>
+      <label>Server endpoint (optional)</label><br>
+      <input type="text" id="endpoint" style="width:100%" placeholder="https://your-worker.example/collect" />
+    </div>
+    <div style="margin-top:8px">
+      <button id="save">Save</button>
+      <button id="clear" style="margin-left:8px">Delete Local Data</button>
+    </div>
+    <script>
+      document.getElementById('save').addEventListener('click', () => {
+        const ep = document.getElementById('endpoint').value.trim();
+        chrome.storage.local.set({ server_endpoint: ep }, () => alert('Saved'));
+      });
+      document.getElementById('clear').addEventListener('click', () => {
+        chrome.storage.local.clear(() => alert('Local data cleared'));
+      });
+      chrome.storage.local.get('server_endpoint', (d) => {
+        document.getElementById('endpoint').value = d.server_endpoint || '';
+      });
+    </script>
+  </body>
+</html>
