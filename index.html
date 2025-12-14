@@ -1,46 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>DealPal - Your Friendly Deal Finder</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <title>DealPal — Friendly Price Tracker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    body { font-family: Arial, sans-serif; max-width: 720px; margin: 40px auto; padding: 20px; line-height: 1.5; }
-    h1 { color: #2c3e50; }
-    p { margin-bottom: 12px; }
-    button { padding: 10px 14px; font-size: 14px; cursor: pointer; }
-    #affiliateBanner img { width: 100%; max-width: 300px; height: auto; display:block; margin:0 auto; }
-    #supportButton { margin-top: 10px; text-align: center; }
-    hr { margin: 20px 0; }
-    .muted { color:#666; font-size:13px; }
+    /* Page uses Times New Roman per preference */
+    body {
+      font-family: "Times New Roman", Times, serif;
+      max-width: 760px;
+      margin: 36px auto;
+      padding: 18px;
+      color: #222;
+      line-height: 1.45;
+    }
+
+    header { text-align: left; margin-bottom: 18px; }
+    h1 { margin: 0 0 6px 0; font-size: 28px; color: #1f2937; }
+    p.lead { margin: 0 0 12px 0; font-size: 16px; color: #333; }
+
+    .card {
+      border: 1px solid #e6e6e6;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 14px;
+      background: #fff;
+    }
+
+    .row { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .col-left { flex: 1 1 320px; min-width:240px; }
+    .col-right { width: 260px; flex-shrink:0; text-align:center; }
+
+    .icon-wrap { margin: 0 auto 8px auto; }
+    #affiliateBanner img { width: 80px; height: auto; display:block; margin:0 auto; }
+
+    .cta {
+      display:block;
+      width:100%;
+      text-align:center;
+      padding: 10px 12px;
+      font-size:15px;
+      background:#1a73e8;
+      color:#fff;
+      text-decoration:none;
+      border-radius:6px;
+      margin-top:8px;
+    }
+
+    .secondary {
+      display:block;
+      width:100%;
+      text-align:center;
+      padding:9px 12px;
+      font-size:14px;
+      background:#f2f2f2;
+      color:#222;
+      text-decoration:none;
+      border-radius:6px;
+      margin-top:8px;
+      border: 1px solid #ddd;
+    }
+
+    .muted { color:#666; font-size:13px; margin-top:10px; }
+    ul { margin:8px 0 8px 18px; }
+    footer { margin-top:18px; font-size:13px; color:#555; }
+
+    @media (max-width:640px) {
+      .row { flex-direction:column; }
+      .col-right { width:100%; }
+    }
   </style>
 </head>
 <body>
-  <h1>DealPal</h1>
-  <p>DealPal helps you track prices and discover deals online. Install the Chrome extension to get automatic price checks and deal alerts while you shop.</p>
+  <header>
+    <h1>DealPal</h1>
+    <p class="lead">A tiny friendly Chrome extension that scans product pages, tracks the latest price, and helps you save money.</p>
+  </header>
 
-  <hr>
+  <section class="card">
+    <div class="row">
+      <div class="col-left">
+        <h3 style="margin-top:0;font-size:18px">How DealPal works</h3>
+        <ul>
+          <li>Visit any product page on Amazon, eBay or Walmart</li>
+          <li>Click the DealPal icon in your Chrome toolbar</li>
+          <li>Click Scan page for product to save the current price</li>
+          <li>Click the Shop on Amazon button to buy and support DealPal at no extra cost</li>
+        </ul>
 
-  <!-- Support Me Button (Ko-fi) -->
-  <div id="supportButton">
-    <a href="https://ko-fi.com/dealpal" target="_blank" rel="noopener noreferrer">
-      <button>Support DealPal on Ko-fi</button>
-    </a>
-  </div>
+        <p class="muted">Privacy note: DealPal works locally by default. The Share anonymized price changes option is optional and turned off by default.</p>
+      </div>
 
-  <hr>
+      <div class="col-right">
+        <div class="icon-wrap">
+          <a href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer" title="Shop on Amazon and support DealPal">
+            <img src="icons/going-to-work.png" alt="Shop on Amazon (supports DealPal)">
+          </a>
+        </div>
+        <div style="font-size:13px;margin-bottom:8px;">Shop on Amazon</div>
+        <a class="secondary" href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer">
+          Click to shop on Amazon and support DealPal
+        </a>
+      </div>
+    </div>
+  </section>
 
-  <!-- Amazon Affiliate Banner -->
-  <div id="affiliateBanner">
-    <a href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer">
-      <img src="icons/going-to-work.png" alt="Shop on Amazon">
-    </a>
-  </div>
+  <section class="card">
+    <div style="text-align:center;">
+      <h3 style="margin:0 0 6px 0;font-size:18px">Support development directly</h3>
+      <p style="margin:0 0 10px 0;">If you like DealPal and want to support ongoing work you can donate.</p>
 
-  <hr>
+      <a class="cta" href="https://ko-fi.com/dealpal" target="_blank" rel="noopener noreferrer">
+        Support DealPal on Ko-fi
+      </a>
 
-  <p class="muted">This page may contain Amazon affiliate links. No personal data is collected by DealPal for monetization purposes.</p>
+      <p class="muted">Donations are direct to the developer and help cover hosting and improvements.</p>
+    </div>
+  </section>
 
-  <p>Chrome Web Store listing coming soon.</p>
+  <section class="card">
+    <h3 style="margin-top:0;font-size:18px">Quick install and notes</h3>
+    <p style="margin:0 0 10px 0;">When the Chrome Web Store listing is live use the Install button to add DealPal to Chrome. Until then you can test locally by loading the unpacked extension from chrome://extensions.</p>
+
+    <a class="secondary" href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer">Chrome Web Store listing coming soon</a>
+
+    <p class="muted">Affiliate disclosure: links to Amazon include an affiliate tag that supports DealPal at no extra cost to you.</p>
+  </section>
+
+  <footer>
+    <div style="font-weight:600;margin-bottom:6px">Contact</div>
+    <div class="muted">Support and feedback: <a href="mailto:francis@dealpal.example">francis@dealpal.example</a></div>
+    <div class="muted" style="margin-top:6px">© DealPal</div>
+  </footer>
 </body>
 </html>
