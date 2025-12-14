@@ -1,17 +1,29 @@
-// content-script.js - DealPal Amazon-specific product extraction
+// content-script.js - DealPal Amazon product extraction (robust)
 (function() {
   function extract() {
     try {
+      // Product title
       const title = document.querySelector('#productTitle')?.innerText?.trim() || document.title;
 
-      // Amazon-specific price detection
-      const priceEl =
-        document.querySelector('#priceblock_ourprice') ||
-        document.querySelector('#priceblock_dealprice') ||
-        document.querySelector('#priceblock_saleprice') ||
-        document.querySelector('.a-price .a-offscreen');
+      // Price detection: cover all common Amazon patterns
+      const priceSelectors = [
+        '#priceblock_ourprice',
+        '#priceblock_dealprice',
+        '#priceblock_saleprice',
+        '.a-price .a-offscreen',
+        '#tp_price_block_total_price_ww', // some subscription prices
+        '#price_inside_buybox'
+      ];
 
-      const priceText = priceEl ? priceEl.innerText.trim() : null;
+      let priceText = null;
+      for (let selector of priceSelectors) {
+        const el = document.querySelector(selector);
+        if (el && el.innerText.trim()) {
+          priceText = el.innerText.trim();
+          break;
+        }
+      }
+
       const numericPrice = priceText ? parseFloat(priceText.replace(/[^\d\.]/g, '')) : null;
 
       const productInfo = {
@@ -22,7 +34,9 @@
         ts: Date.now()
       };
 
+      // Send to popup/background
       chrome.runtime.sendMessage({ type: 'PRODUCT_INFO', payload: productInfo });
+
     } catch (e) {
       console.error('DealPal content script extract error', e);
       chrome.runtime.sendMessage({
@@ -32,6 +46,6 @@
     }
   }
 
-  // run immediately
+  // Run immediately
   extract();
 })();
