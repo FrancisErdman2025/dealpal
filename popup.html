@@ -6,13 +6,15 @@
     <style>
       body { font-family: Arial, sans-serif; width: 340px; padding: 12px; box-sizing: border-box; }
       h3 { margin: 0 0 8px 0; font-size: 18px; }
+      h4 { margin: 12px 0 6px 0; font-size: 14px; }
       button { margin-top: 8px; padding: 6px 12px; font-size: 14px; cursor: pointer; }
       .item { border-bottom: 1px solid #eee; padding: 6px 0; }
       .small { font-size: 12px; color: #666; }
       #adContainer { margin-top: 12px; text-align: center; border-top: 1px solid #ddd; padding-top: 8px; }
-      #affiliateBanner img { width: 100%; max-width: 300px; height: auto; display:block; margin:0 auto; }
+      #affiliateBanner img { width: 80px; height:auto; display:block; margin:0 auto; }
       #trackedList { max-height: 160px; overflow:auto; padding-right:6px; }
       .no-items { color:#777; font-size:13px; }
+      #supportButton button { width: 100%; }
     </style>
   </head>
   <body>
@@ -26,28 +28,30 @@
     </div>
 
     <!-- Tracked Items -->
-    <h4 style="margin-bottom:6px;">Tracked items</h4>
+    <h4>Tracked items</h4>
     <div id="trackedList"><div class="no-items">No tracked items yet.</div></div>
 
     <!-- Monetization Section -->
     <div id="adContainer">
-      <!-- Amazon Affiliate: uses your associate tag dealpal20-20 -->
-      <div id="affiliateBanner" style="margin-bottom:8px;">
+
+      <!-- Amazon Affiliate -->
+      <div id="affiliateBanner" style="margin-bottom:12px; text-align:center;">
         <a href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer">
           <img src="icons/going-to-work.png" alt="Shop on Amazon">
+          <span style="display:block; font-size:12px; margin-top:4px; color:#333;">
+            Shop on Amazon (supports DealPal)
+          </span>
         </a>
       </div>
 
-      <!-- Support Me Button (Ko-fi username: dealpal) -->
-      <div id="supportButton">
+      <!-- Support Me Button (Ko-fi) -->
+      <div id="supportButton" style="text-align:center;">
         <a href="https://ko-fi.com/dealpal" target="_blank" rel="noopener noreferrer">
           <button id="supportBtn">Support DealPal</button>
         </a>
+        <div style="font-size:11px; color:#666; margin-top:2px;">Direct donation to help maintain DealPal</div>
       </div>
 
-      <div style="margin-top:8px;font-size:11px;color:#666;">
-        This extension may contain affiliate/support links. No personal data is collected for ads.
-      </div>
     </div>
 
     <script src="popup.js"></script>
