@@ -1,68 +1,60 @@
-// popup.js - DealPal popup logic
-document.addEventListener('DOMContentLoaded', () => {
-  const scanBtn = document.getElementById('scanBtn');
-  const trackedList = document.getElementById('trackedList');
-  const lastSeen = document.getElementById('lastSeen');
-  const consentCheckbox = document.getElementById('consent');
+// popup.js
 
-  // Load saved items
-  chrome.storage.local.get(['trackedItems', 'consent'], (data) => {
-    const items = data.trackedItems || [];
-    consentCheckbox.checked = data.consent || false;
-    displayItems(items);
-  });
+document.addEventListener('DOMContentLoaded', function () {
+    const trackedList = document.getElementById('tracked-list');
+    const scanButton = document.getElementById('scan-page');
+    const message = document.getElementById('message');
 
-  scanBtn.addEventListener('click', () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (!tabs[0]) return;
-      chrome.scripting.executeScript(
-        {
-          target: { tabId: tabs[0].id },
-          files: ['content-script.js']
-        },
-        () => {
-          lastSeen.textContent = 'Scan executed.';
-        }
-      );
-    });
-  });
+    function renderTrackedItems(items) {
+        trackedList.innerHTML = '';
+        items.forEach((item, index) => {
+            const li = document.createElement('li');
+            li.textContent = `${item.title} - $${item.price.toFixed(2)} `;
 
-  consentCheckbox.addEventListener('change', () => {
-    chrome.storage.local.set({ consent: consentCheckbox.checked });
-  });
+            // Create delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'X';
+            deleteBtn.style.marginLeft = '10px';
+            deleteBtn.addEventListener('click', () => {
+                items.splice(index, 1);
+                chrome.storage.local.set({ trackedItems: items }, () => {
+                    renderTrackedItems(items);
+                });
+            });
 
-  // Listen for messages from content script
-  chrome.runtime.onMessage.addListener((message) => {
-    if (message.type === 'PRODUCT_INFO') {
-      let items = [];
-      chrome.storage.local.get('trackedItems', (data) => {
-        items = data.trackedItems || [];
-        const product = message.payload;
-        // better price message
-        const displayPrice = product.priceText ? product.priceText : 'Price not detected';
-        product.displayPrice = displayPrice;
-
-        items.unshift(product); // add newest on top
-        chrome.storage.local.set({ trackedItems: items }, () => {
-          displayItems(items);
+            li.appendChild(deleteBtn);
+            trackedList.appendChild(li);
         });
-      });
     }
-  });
 
-  function displayItems(items) {
-    trackedList.innerHTML = '';
-    if (!items.length) {
-      trackedList.innerHTML = '<div class="no-items">No tracked items yet.</div>';
-      return;
-    }
-    items.forEach((product) => {
-      const div = document.createElement('div');
-      div.className = 'item';
-      div.innerHTML = `<strong>${product.title}</strong><br>
-                       Latest: ${product.displayPrice}<br>
-                       <a href="${product.url}" target="_blank">View product</a>`;
-      trackedList.appendChild(div);
+    // Load tracked items from storage
+    chrome.storage.local.get({ trackedItems: [] }, (data) => {
+        renderTrackedItems(data.trackedItems);
     });
-  }
+
+    scanButton.addEventListener('click', () => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            chrome.tabs.sendMessage(tabs[0].id, { action: 'scanPage' }, (response) => {
+                if (!response) {
+                    message.textContent = 'No product found on this page.';
+                    return;
+                }
+
+                chrome.storage.local.get({ trackedItems: [] }, (data) => {
+                    // Prevent duplicates
+                    const exists = data.trackedItems.some(item => item.url === response.url);
+                    if (exists) {
+                        message.textContent = 'This page is already tracked. Delete first to add again.';
+                        return;
+                    }
+
+                    data.trackedItems.push(response);
+                    chrome.storage.local.set({ trackedItems: data.trackedItems }, () => {
+                        renderTrackedItems(data.trackedItems);
+                        message.textContent = `Tracked: ${response.title}`;
+                    });
+                });
+            });
+        });
+    });
 });
