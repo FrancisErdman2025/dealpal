@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const li = document.createElement('li');
             li.textContent = `${item.title} - $${item.price.toFixed(2)} `;
 
-            // Create delete button
             const deleteBtn = document.createElement('button');
             deleteBtn.textContent = 'X';
             deleteBtn.style.marginLeft = '10px';
@@ -19,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 items.splice(index, 1);
                 chrome.storage.local.set({ trackedItems: items }, () => {
                     renderTrackedItems(items);
+                    message.textContent = `Deleted: ${item.title}`;
                 });
             });
 
@@ -27,21 +27,28 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Load tracked items from storage
+    // Load tracked items on popup open
     chrome.storage.local.get({ trackedItems: [] }, (data) => {
         renderTrackedItems(data.trackedItems);
     });
 
     scanButton.addEventListener('click', () => {
+        message.textContent = '';
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (!tabs || tabs.length === 0) {
+                message.textContent = 'No active tab found.';
+                return;
+            }
+
             chrome.tabs.sendMessage(tabs[0].id, { action: 'scanPage' }, (response) => {
-                if (!response) {
+                console.log('Scan response:', response);
+
+                if (!response || !response.url) {
                     message.textContent = 'No product found on this page.';
                     return;
                 }
 
                 chrome.storage.local.get({ trackedItems: [] }, (data) => {
-                    // Prevent duplicates
                     const exists = data.trackedItems.some(item => item.url === response.url);
                     if (exists) {
                         message.textContent = 'This page is already tracked. Delete first to add again.';
