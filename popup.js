@@ -1,5 +1,5 @@
-// popup.js - DealPal (restore working scan + prevent duplicates + delete X)
-// Replace your existing popup.js with this file entirely.
+// popup.js - DealPal (scan + prevent duplicates + delete X)
+// Full file — replace your existing popup.js with this.
 
 document.addEventListener('DOMContentLoaded', () => {
   const scanBtn = document.getElementById('scanBtn');
@@ -9,14 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Utility: safely normalize storage data to an array of items
   function normalizeStoredItems(data) {
-    // Support older formats: tracked_items (object keyed by url) or trackedItems (array)
     if (!data) return [];
     if (Array.isArray(data)) return data;
-    // if object keyed by url
     if (typeof data === 'object') {
       try {
-        const arr = Object.keys(data).map(k => data[k]);
-        return arr;
+        return Object.keys(data).map(k => data[k]);
       } catch (e) {
         return [];
       }
@@ -27,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load and render stored items + consent
   function loadAll() {
     chrome.storage.local.get(['trackedItems','tracked_items','share_consent'], (data) => {
-      // prefer trackedItems array, else convert tracked_items object
       let items = [];
       if (data.trackedItems) items = normalizeStoredItems(data.trackedItems);
       else if (data.tracked_items) items = normalizeStoredItems(data.tracked_items);
@@ -52,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const title = escapeHtml(item.title || item.url || 'Unknown product');
       const priceDisplay = item.priceText ? escapeHtml(item.priceText) : 'Price not detected';
 
-      // structure: title, price, view link, delete button
       node.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div style="flex:1;min-width:0;">
@@ -85,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Delete item by URL
+  // Delete item by URL and clear duplicate message
   function deleteTrackedByUrl(url) {
     chrome.storage.local.get(['trackedItems','tracked_items'], (data) => {
       let items = [];
@@ -96,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const filtered = items.filter(i => i.url !== url);
       saveTrackedArray(filtered, () => {
         renderTracked(filtered);
+        // Clear any duplicate / info message that might have been shown earlier
+        lastSeenDiv.textContent = '';
       });
     });
   }
@@ -125,13 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const tab = tabs[0];
 
-      // Execute script function in page context to return product info
       const results = await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: function getProductInfo() {
-          // This runs inside the page
           try {
-            // Title detection robust list
             const titleSelectors = ['#productTitle','h1','[data-testid="product-title"]','[itemprop="name"]','.prod-ProductTitle','.product-title'];
             let title = '';
             for (const sel of titleSelectors) {
@@ -143,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (!title) title = document.title || '';
 
-            // Amazon-focused price selectors and generic ones
             const priceSelectors = [
               '#priceblock_ourprice',
               '#priceblock_dealprice',
@@ -171,17 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // scripting.executeScript returns an array of results (frames); we take first
       if (!results || !results[0] || !results[0].result) {
         lastSeenDiv.textContent = 'No product information returned from page.';
         return;
       }
       const product = results[0].result;
 
-      // show immediate feedback
+      // immediate feedback
       lastSeenDiv.textContent = `Scanned: ${product.title ? product.title.substring(0,60) : product.url}`;
 
-      // get existing items and add if not duplicate
       chrome.storage.local.get(['trackedItems','tracked_items'], (data) => {
         let items = [];
         if (data.trackedItems) items = normalizeStoredItems(data.trackedItems);
@@ -193,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        // prepend new item
         items.unshift(product);
         saveTrackedArray(items, () => {
           renderTracked(items);
