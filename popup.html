@@ -2,151 +2,106 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>DealPal - Tiny Price Tracker</title>
+    <title>DealPal — Tiny Price Tracker</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        width: 340px;
-        padding: 12px;
-        box-sizing: border-box;
-        background: #fff;
+      :root{
+        --accent:#ff6b35;
+        --muted:#6b7280;
+        --card:#ffffff;
+        --bg:#fff7f5;
+        --radius:12px;
+        --shadow:0 8px 20px rgba(15,23,42,0.06);
       }
-
-      h3 { margin: 0 0 8px 0; font-size: 18px; }
-      h4 { margin: 12px 0 6px 0; font-size: 14px; }
-      button { margin-top: 8px; padding: 6px 12px; font-size: 14px; cursor: pointer; }
-
-      .item { border-bottom: 1px solid #eee; padding: 6px 0; }
-      .small { font-size: 12px; color: #666; }
-      #trackedList { max-height: 160px; overflow:auto; padding-right:6px; }
-      .no-items { color:#777; font-size:13px; }
-
-      #adContainer {
-        margin-top: 12px;
-        text-align: center;
-        border-top: 1px solid #ddd;
-        padding-top: 8px;
+      body{
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        width:360px;
+        padding:14px;
+        box-sizing:border-box;
+        background:var(--bg);
+        color:#111827;
       }
-
-      #affiliateBanner img {
-        width: 80px;
-        height:auto;
-        display:block;
-        margin:0 auto;
+      header{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+      .logo {
+        width:46px;height:46px;border-radius:10px;
+        background:linear-gradient(135deg,#fff0f0,#ffe9e0);
+        display:flex;align-items:center;justify-content:center;font-size:22px;
+        box-shadow:var(--shadow);
       }
-
-      #supportButton button { width: 100%; }
-
-      /* Consent row */
-      .consent-row {
-        display:flex;
-        align-items:center;
-        gap:8px;
-        margin-top:8px;
-        position:relative;
+      h3{margin:0;font-size:18px}
+      .card{
+        background:var(--card);
+        border-radius:var(--radius);
+        padding:10px;
+        box-shadow:var(--shadow);
+        margin-bottom:12px;
       }
-
-      .consent-label {
-        display:flex;
-        align-items:center;
-        gap:6px;
-        font-size:13px;
-        color:#222;
+      #scanBtn{
+        width:100%;
+        background:linear-gradient(90deg,var(--accent),#ff8b5a);
+        color:white;
+        border:none;
+        padding:10px;
+        border-radius:10px;
+        font-weight:600;
         cursor:pointer;
+        font-size:14px;
       }
-
-      /* Info icon + tooltip */
-      .info-wrap {
-        position:relative;
-        width:22px;
-        height:22px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-      }
-
-      .info-icon {
-        width:20px;
-        height:20px;
-        border-radius:50%;
-        background:#e6eefc;
-        color:#1a73e8;
-        font-weight:700;
-        text-align:center;
-        line-height:20px;
-        font-size:12px;
-        user-select:none;
-        cursor:default;
-      }
-
-      /* Tooltip now opens DOWNWARD to avoid clipping */
-      .tooltip {
-        position:absolute;
-        top:calc(100% + 8px);
-        left:0;
-        min-width:220px;
-        max-width:260px;
-        background:#222;
-        color:#fff;
-        padding:8px 10px;
-        border-radius:6px;
-        font-size:12px;
-        line-height:1.35;
-        box-shadow:0 6px 18px rgba(0,0,0,0.15);
-        display:none;
-        z-index:9999;
-      }
-
-      .tooltip::before {
-        content:"";
-        position:absolute;
-        bottom:100%;
-        left:10px;
-        border-width:6px;
-        border-style:solid;
-        border-color:transparent transparent #222 transparent;
-      }
-
-      .info-wrap:hover .tooltip,
-      .info-wrap:focus-within .tooltip {
-        display:block;
-      }
+      .consent-row{display:flex;align-items:center;gap:8px;margin-top:10px}
+      .info-icon{width:20px;height:20px;border-radius:50%;background:#fff;color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;border:1px solid rgba(0,0,0,0.06)}
+      .tooltip{display:none;position:absolute;background:#111827;color:#fff;padding:8px;border-radius:8px;font-size:12px;max-width:220px;box-shadow:0 8px 24px rgba(2,6,23,0.2)}
+      .info-wrap{position:relative}
+      .info-wrap:hover .tooltip,.info-wrap:focus-within .tooltip{display:block;top:30px;left:-6px}
+      h4{margin:8px 0 6px 0;font-size:13px;color:var(--muted)}
+      #trackedList{max-height:170px;overflow:auto;padding-right:6px}
+      .item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;margin-bottom:8px;background:linear-gradient(180deg,#fff,#fff);box-shadow:0 4px 10px rgba(2,6,23,0.03)}
+      .item .meta{max-width:220px;overflow:hidden}
+      .item .meta .title{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .item .meta .price{font-size:12px;color:var(--muted);margin-top:4px}
+      .deleteBtn{background:#ff6b6b;border:none;color:white;padding:6px 8px;border-radius:7px;cursor:pointer;font-weight:700}
+      #adContainer{text-align:center;margin-top:8px}
+      #affiliateBanner img{width:64px;height:auto;border-radius:8px;display:block;margin:0 auto}
+      #supportButton button{margin-top:8px;width:100%;padding:8px;background:#fff;border:2px solid var(--accent);color:var(--accent);border-radius:10px;cursor:pointer;font-weight:700}
+      .note{font-size:11px;color:var(--muted);margin-top:8px;text-align:center}
     </style>
   </head>
-
   <body>
-    <h3>DealPal</h3>
-
-    <div id="lastSeen" style="margin-bottom:8px;color:#333;"></div>
-    <button id="scanBtn">Scan page for product</button>
-
-    <div class="consent-row">
-      <div class="info-wrap" tabindex="0">
-        <span class="info-icon">i</span>
-        <div class="tooltip">
-          Sharing is anonymous and optional. If enabled, DealPal may send non-personal price change data in the future to help improve the product. No personal information or browsing history is collected.
-        </div>
+    <header>
+      <div class="logo" aria-hidden="true">🤖</div>
+      <div>
+        <h3>DealPal</h3>
+        <div style="font-size:12px;color:var(--muted)">Friendly price tracker</div>
       </div>
+    </header>
 
-      <label class="consent-label">
-        <input type="checkbox" id="consent">
-        Share anonymized price changes
-      </label>
-    </div>
+    <div id="lastSeen" style="font-size:12px;color:var(--muted);margin-bottom:6px"></div>
 
-    <h4>Tracked items</h4>
-    <div id="trackedList">
-      <div class="no-items">No tracked items yet.</div>
-    </div>
+    <div class="card">
+      <button id="scanBtn">Scan page for product</button>
 
-    <div id="adContainer">
-      <div id="affiliateBanner" style="margin-bottom:8px;">
-        <a href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer">
-          <img src="icons/going-to-work.png" alt="Shop on Amazon (supports DealPal)">
-        </a>
-        <div style="font-size:12px;margin-top:6px;color:#333;">
-          Shop on Amazon (supports DealPal)
+      <div class="consent-row" style="margin-top:10px">
+        <div class="info-wrap" tabindex="0" aria-label="About sharing anonymized data">
+          <div class="info-icon">i</div>
+          <div class="tooltip" role="tooltip">
+            Sharing is anonymous and optional. If enabled DealPal will send non personal price change data to help improve the product. No personal information or browsing history is collected.
+          </div>
         </div>
+        <label style="font-size:13px;cursor:pointer">
+          <input type="checkbox" id="consent"> Share anonymized price changes
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Tracked items</h4>
+      <div id="trackedList"><div class="no-items" style="color:var(--muted)">No tracked items yet.</div></div>
+    </div>
+
+    <div class="card" id="adContainer" style="text-align:center">
+      <div id="affiliateBanner">
+        <a href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer" title="Shop on Amazon and support DealPal">
+          <img src="icons/going-to-work.png" alt="Shop on Amazon supports DealPal">
+        </a>
+        <div style="font-size:12px;margin-top:8px">Shop on Amazon and support DealPal</div>
       </div>
 
       <div id="supportButton">
@@ -155,9 +110,7 @@
         </a>
       </div>
 
-      <div style="margin-top:8px;font-size:11px;color:#666;">
-        Affiliate and support links help fund development.
-      </div>
+      <div class="note">This extension includes an affiliate link and a support button. No personal data is collected for ads.</div>
     </div>
 
     <script src="popup.js"></script>
