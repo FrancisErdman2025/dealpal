@@ -1,20 +1,48 @@
 {
   "manifest_version": 3,
-  "name": "DealPal - Tiny Price Tracker",
-  "version": "1.0",
-  "description": "Track prices and discover deals effortlessly with DealPal",
-  "action": {
-    "default_popup": "popup.html"
+  "name": "DealPal – Smart Price Tracker",
+  "description": "Track prices on Amazon, Walmart, and eBay. Get alerts and support DealPal through affiliate shopping or donations.",
+  "version": "1.0.0",
+
+  "icons": {
+    "16": "icons/small_robot.png",
+    "48": "icons/small_robot.png",
+    "128": "icons/small_robot.png"
   },
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/small_robot.png",
+      "48": "icons/small_robot.png",
+      "128": "icons/small_robot.png"
+    }
+  },
+
   "permissions": [
     "storage",
     "activeTab",
     "scripting"
   ],
+
   "host_permissions": [
     "*://*.amazon.com/*",
-    "*://*.ebay.com/*",
     "*://*.walmart.com/*",
-    "<all_urls>"
+    "*://*.ebay.com/*"
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.amazon.com/*",
+        "*://*.walmart.com/*",
+        "*://*.ebay.com/*"
+      ],
+      "js": ["content-script.js"]
+    }
   ]
 }
