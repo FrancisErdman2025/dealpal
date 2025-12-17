@@ -2,136 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>DealPal — Friendly Price Tracker</title>
+  <title>DealPal by Northbridge Digital</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    /* Page uses Times New Roman per preference */
-    body {
-      font-family: "Times New Roman", Times, serif;
-      max-width: 760px;
-      margin: 36px auto;
-      padding: 18px;
-      color: #222;
-      line-height: 1.45;
-      background: #fafafa;
-    }
-
-    header { text-align: left; margin-bottom: 18px; }
-    h1 { margin: 0 0 6px 0; font-size: 28px; color: #1f2937; }
-    p.lead { margin: 0 0 12px 0; font-size: 16px; color: #333; }
-
-    .card {
-      border: 1px solid #e6e6e6;
-      border-radius: 8px;
-      padding: 14px;
-      margin-bottom: 14px;
-      background: #fff;
-    }
-
-    .row { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
-    .col-left { flex: 1 1 320px; min-width:240px; }
-    .col-right { width: 220px; flex-shrink:0; text-align:center; }
-
-    .icon-wrap { margin: 0 auto 8px auto; display:flex; justify-content:center; align-items:center; }
-    #affiliateBanner img { width: 56px; height: auto; display:block; margin:0 auto; }
-
-    .cta {
-      display:block;
-      width:100%;
-      text-align:center;
-      padding: 10px 12px;
-      font-size:15px;
-      background:#1a73e8;
-      color:#fff;
-      text-decoration:none;
-      border-radius:6px;
-      margin-top:8px;
-    }
-
-    .secondary {
-      display:block;
-      width:100%;
-      text-align:center;
-      padding:9px 12px;
-      font-size:14px;
-      background:#f2f2f2;
-      color:#222;
-      text-decoration:none;
-      border-radius:6px;
-      margin-top:8px;
-      border: 1px solid #ddd;
-    }
-
-    .muted { color:#666; font-size:13px; margin-top:10px; }
-    ul { margin:8px 0 8px 18px; }
-    footer { margin-top:18px; font-size:13px; color:#555; }
-
-    @media (max-width:640px) {
-      .row { flex-direction:column; }
-      .col-right { width:100%; }
-    }
+    body { font-family:"Times New Roman", Times, serif; max-width:820px; margin:36px auto; padding:20px; background:#fff8f6; color:#222; }
+    header { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+    .logo { width:68px; height:68px; border-radius:12px; background:linear-gradient(135deg,#fff8f3,#fff1ee); display:flex; align-items:center; justify-content:center; font-size:34px; }
+    h1 { margin:0; font-size:28px }
+    p.lead { margin:4px 0 12px 0; color:#333 }
+    .card { background:#fff; border-radius:12px; padding:16px; box-shadow:0 10px 30px rgba(15,23,42,0.06); margin-bottom:12px }
+    .row { display:flex; gap:18px; align-items:center; flex-wrap:wrap }
+    .col-left { flex:1 1 320px; min-width:240px }
+    .col-right { width:220px; text-align:center }
+    #affiliateBanner img { width:56px; border-radius:8px; display:block; margin:0 auto }
+    .cta { display:inline-block; padding:10px 14px; background:#ff6b35; color:#fff; border-radius:10px; text-decoration:none; font-weight:700; margin-top:8px }
+    .secondary { display:inline-block; padding:9px 12px; border-radius:8px; border:1px solid #ffd9cc; background:#fff; color:#ff6b35; text-decoration:none; margin-top:8px }
+    .muted { color:#666; font-size:13px; margin-top:10px }
+    footer { margin-top:18px; font-size:13px; color:#555 }
+    ul { margin:8px 0 8px 18px }
+    @media (max-width:640px) { .row { flex-direction:column } .col-right { width:100% } }
   </style>
 </head>
 <body>
   <header>
-    <h1>DealPal</h1>
-    <p class="lead">A tiny friendly Chrome extension that scans product pages, tracks the latest price, and helps you save money.</p>
+    <div class="logo" aria-hidden="true">🤖</div>
+    <div>
+      <h1>DealPal</h1>
+      <p class="lead">Friendly price tracker by Northbridge Digital</p>
+    </div>
   </header>
 
   <section class="card">
     <div class="row">
       <div class="col-left">
-        <h3 style="margin-top:0;font-size:18px">How DealPal works</h3>
+        <h3 style="margin-top:0">How it works</h3>
         <ul>
-          <li>Visit any product page on Amazon, eBay or Walmart</li>
-          <li>Click the DealPal icon in your Chrome toolbar</li>
-          <li>Click Scan page for product to save the current price</li>
-          <li>Click the Shop on Amazon button to buy and support DealPal at no extra cost</li>
+          <li>Open any product page on Amazon eBay or Walmart</li>
+          <li>Click the DealPal icon in Chrome then Scan page for product</li>
+          <li>Saved items appear in your tracked list</li>
+          <li>Click Shop on Amazon to buy and support the project at no extra cost</li>
         </ul>
-
-        <p class="muted">Privacy note: DealPal works locally by default. The Share anonymized price changes option is optional and turned off by default.</p>
+        <p class="muted">Privacy note: Sharing anonymized price data is optional and off by default. We do not collect personal information for advertising</p>
       </div>
 
       <div class="col-right">
-        <div class="icon-wrap" aria-hidden="false">
+        <div id="affiliateBanner">
           <a href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer" title="Shop on Amazon and support DealPal">
-            <img src="icons/going-to-work.png" alt="Shop on Amazon (supports DealPal)">
+            <img src="icons/going-to-work.png" alt="Shop on Amazon supports DealPal">
           </a>
         </div>
-        <div style="font-size:13px;margin-bottom:8px;">Shop on Amazon</div>
-        <a class="secondary" href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer">
-          Click to shop on Amazon and support DealPal
-        </a>
+        <div style="margin-top:10px">
+          <a class="secondary" href="https://www.amazon.com/?tag=dealpal20-20" target="_blank" rel="noopener noreferrer">Shop on Amazon and support DealPal</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="card">
-    <div style="text-align:center;">
-      <h3 style="margin:0 0 6px 0;font-size:18px">Support development directly</h3>
-      <p style="margin:0 0 10px 0;">If you like DealPal and want to support ongoing work you can donate.</p>
-
-      <a class="cta" href="https://ko-fi.com/dealpal" target="_blank" rel="noopener noreferrer">
-        Support DealPal on Ko-fi
-      </a>
-
-      <p class="muted">Donations are direct to the developer and help cover hosting and improvements.</p>
-    </div>
+  <section class="card" style="text-align:center">
+    <h3 style="margin:0 0 8px 0">Support development</h3>
+    <p style="margin:0 0 10px 0">If you like DealPal please consider a small donation</p>
+    <a class="cta" href="https://ko-fi.com/dealpal" target="_blank" rel="noopener noreferrer">Support DealPal on Ko-fi</a>
+    <p class="muted">Donations go directly to cover hosting and improvements</p>
   </section>
 
   <section class="card">
-    <h3 style="margin-top:0;font-size:18px">Quick install and notes</h3>
-    <p style="margin:0 0 10px 0;">When the Chrome Web Store listing is live use the Install button to add DealPal to Chrome. Until then you can test locally by loading the unpacked extension from chrome://extensions.</p>
-
-    <a class="secondary" href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer">Chrome Web Store listing coming soon</a>
-
-    <p class="muted">Affiliate disclosure: links to Amazon include an affiliate tag that supports DealPal at no extra cost to you.</p>
+    <h3 style="margin-top:0">Quick notes</h3>
+    <p style="margin:0">Once the Chrome Web Store listing is live use the install button to add DealPal. For now test locally with load unpacked in chrome extensions</p>
+    <p class="muted">Affiliate disclosure: links to Amazon include an affiliate tag that supports DealPal at no extra cost to you</p>
   </section>
 
   <footer>
     <div style="font-weight:600;margin-bottom:6px">Contact</div>
     <div class="muted">Support and feedback: <a href="mailto:FrancisErdman@mailfence.com">FrancisErdman@mailfence.com</a></div>
-    <div class="muted" style="margin-top:6px">© DealPal</div>
+    <div class="muted" style="margin-top:6px">© Northbridge Digital LLC</div>
   </footer>
 </body>
 </html>
