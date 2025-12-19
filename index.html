@@ -56,29 +56,43 @@
       margin-bottom: 26px;
     }
 
-    .install-text {
-      font-size: 15px;
-      color: #333;
-      max-width: 360px;
-    }
-
-    .install-text strong {
-      color: #ff6a2a;
-    }
-
     .chrome-badge {
       height: 60px;
     }
 
-    .secondary-link {
-      color: #ff6a2a;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 14px;
+    .install-copy {
+      max-width: 380px;
     }
 
-    .secondary-link:hover {
+    .install-line {
+      font-size: 15px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .install-line strong {
+      color: #ff6a2a;
+    }
+
+    .privacy-link {
+      font-size: 13px;
+      color: #ff6a2a;
+      text-decoration: none;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .privacy-link:hover {
       text-decoration: underline;
+    }
+
+    .install-subtext {
+      font-size: 14px;
+      color: #555;
+      margin-top: 4px;
     }
 
     .card {
@@ -159,19 +173,23 @@
         />
       </a>
 
-      <div class="install-text">
-        <strong>Click the button to install DealPal</strong><br />
-        Free Chrome extension for tracking prices on Amazon, Walmart, and eBay.
-      </div>
+      <div class="install-copy">
+        <div class="install-line">
+          <strong>Click the button to install DealPal</strong>
+          <a
+            href="privacy.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="privacy-link"
+          >
+            View Privacy Policy
+          </a>
+        </div>
 
-      <a
-        class="secondary-link"
-        href="privacy.html"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        View Privacy Policy
-      </a>
+        <div class="install-subtext">
+          Free Chrome extension for tracking prices on Amazon, Walmart, and eBay.
+        </div>
+      </div>
     </div>
 
     <!-- What DealPal Does -->
