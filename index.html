@@ -49,11 +49,21 @@
     }
 
     .install-row {
-      margin-bottom: 22px;
       display: flex;
-      gap: 18px;
       align-items: center;
+      gap: 20px;
       flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .install-text {
+      font-size: 15px;
+      color: #333;
+      max-width: 360px;
+    }
+
+    .install-text strong {
+      color: #ff6a2a;
     }
 
     .chrome-badge {
@@ -64,6 +74,7 @@
       color: #ff6a2a;
       font-weight: 600;
       text-decoration: none;
+      font-size: 14px;
     }
 
     .secondary-link:hover {
@@ -134,7 +145,7 @@
       </div>
     </div>
 
-    <!-- Install row -->
+    <!-- Install -->
     <div class="install-row">
       <a
         href="https://chromewebstore.google.com/detail/dealpal-%E2%80%93-smart-price-tra/oilgebghginakdfmdpelgfhniflklbof"
@@ -143,10 +154,15 @@
       >
         <img
           src="icons/chrome-web-store-badge.png"
-          alt="Available in the Chrome Web Store"
+          alt="Install DealPal from the Chrome Web Store"
           class="chrome-badge"
         />
       </a>
+
+      <div class="install-text">
+        <strong>Click the button to install DealPal</strong><br />
+        Free Chrome extension for tracking prices on Amazon, Walmart, and eBay.
+      </div>
 
       <a
         class="secondary-link"
@@ -168,12 +184,6 @@
         and press <strong>Scan</strong> to save the current price.
         Tracked items are stored locally in your browser.
       </p>
-
-      <div class="links">
-        <a href="privacy.html" target="_blank" rel="noopener noreferrer">
-          Privacy Policy
-        </a>
-      </div>
     </div>
 
     <!-- Support -->
