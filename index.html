@@ -1,234 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>DealPal – Smart Price Tracker</title>
+  <meta charset="UTF-8" />
+  <title>DealPal – Friendly Price Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="icons/small_robot.png">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tab icon -->
+  <link rel="icon" type="image/png" href="icons/small_robot.png" />
 
   <style>
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f6f7f9;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
       color: #222;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 30px 20px 40px;
-    }
-
-    .header {
       display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    .header img {
-      width: 64px;
-      height: 64px;
-      border-radius: 12px;
+    header {
+      background: #1f2937;
+      color: white;
+      padding: 16px;
+      text-align: center;
     }
 
-    h1 {
+    header h1 {
       margin: 0;
-      font-size: 36px;
-      font-weight: 700;
-    }
-
-    h1 span {
-      color: #ff6a2a;
-    }
-
-    .subtitle {
-      margin-top: 4px;
-      font-size: 16px;
-      color: #555;
-    }
-
-    .install-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: 20px 0 30px;
-      flex-wrap: wrap;
-    }
-
-    .install-row img {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-    }
-
-    .install-text {
-      font-size: 16px;
-    }
-
-    .install-text a {
-      font-weight: bold;
-      color: #1a73e8;
-      text-decoration: none;
-    }
-
-    .install-text a:hover {
-      text-decoration: underline;
-    }
-
-    .privacy-link {
-      margin-left: 12px;
-      font-size: 14px;
-    }
-
-    .privacy-link a {
-      color: #ff6a2a;
-      text-decoration: none;
-    }
-
-    .privacy-link a:hover {
-      text-decoration: underline;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 24px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      margin-bottom: 24px;
-    }
-
-    .card h2 {
-      margin-top: 0;
       font-size: 22px;
+      font-weight: 600;
     }
 
-    .card p {
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 72px;
+      height: auto;
+      margin-bottom: 16px;
+    }
+
+    .tagline {
       font-size: 16px;
-      line-height: 1.6;
+      max-width: 520px;
+      margin-bottom: 24px;
+      line-height: 1.5;
     }
 
-    .support-links a {
-      display: inline-block;
-      margin-right: 16px;
-      margin-top: 10px;
-      font-weight: bold;
-      color: #ff6a2a;
+    .install-area {
+      margin-bottom: 12px;
+    }
+
+    .install-area a {
+      font-size: 15px;
+      font-weight: 600;
+      color: #2563eb;
       text-decoration: none;
     }
 
-    .support-links a:hover {
+    .install-area a:hover {
       text-decoration: underline;
+    }
+
+    .privacy-inline {
+      margin-left: 12px;
+      font-size: 13px;
     }
 
     footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #666;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 14px 16px;
+      font-size: 13px;
+    }
+
+    .footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
     }
 
     footer a {
-      color: #ff6a2a;
+      color: #93c5fd;
       text-decoration: none;
     }
 
     footer a:hover {
       text-decoration: underline;
     }
+
+    .badge img {
+      height: 36px;
+      width: auto;
+      vertical-align: middle;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 18px;
+      }
+      .tagline {
+        font-size: 15px;
+      }
+      .badge img {
+        height: 32px;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="container">
 
-    <div class="header">
-      <img src="icons/small_robot.png" alt="DealPal Robot">
-      <div>
-        <h1>Deal<span>Pal</span></h1>
-        <div class="subtitle">
-          Friendly price tracker by Northbridge Digital LLC
-        </div>
-      </div>
+  <header>
+    <h1>Friendly price tracker by Northbridge Digital LLC</h1>
+  </header>
+
+  <main>
+    <img src="icons/small_robot.png" alt="DealPal robot icon" class="logo" />
+
+    <div class="tagline">
+      DealPal is a simple Chrome extension that tracks prices on Amazon, Walmart, and eBay.
+      Click the icon while viewing a product page and DealPal figures the rest out.
     </div>
 
-    <div class="install-row">
-      <img src="icons/small_robot.png" alt="DealPal Icon">
+    <div class="install-area">
+      <a
+        href="https://chromewebstore.google.com/detail/dealpal-%E2%80%93-smart-price-tra/oilgebghginakdfmdpelgfhniflklbof"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Click here to install DealPal from the Chrome Web Store
+      </a>
 
-      <div class="install-text">
-        <a
-          href="https://chromewebstore.google.com/detail/dealpal-%E2%80%93-smart-price-tra/oilgebghginakdfmdpelgfhniflklbof"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Click here to install DealPal
-        </a>
-        <div>
-          Free Chrome extension for tracking prices on Amazon, Walmart, and eBay.
-        </div>
-      </div>
-
-      <div class="privacy-link">
+      <span class="privacy-inline">
+        ·
         <a href="privacy.html" target="_blank" rel="noopener noreferrer">
           View Privacy Policy
         </a>
-      </div>
+      </span>
     </div>
+  </main>
 
-    <div class="card">
-      <h2>What DealPal does</h2>
-      <p>
-        DealPal helps you track prices on Amazon, Walmart, and eBay product pages.
-        Click the DealPal toolbar icon on a product detail page and press Scan to
-        save the current price. Tracked items are stored locally in your browser.
-      </p>
-    </div>
+  <footer>
+    <div class="footer-row">
+      <span>© Northbridge Digital LLC</span>
 
-    <div class="card">
-      <h2>Support DealPal</h2>
-      <p>
-        You can support development by shopping via the extension's Amazon affiliate
-        link or by donating.
-      </p>
+      <a href="mailto:FrancisErdman@mailfence.com">Contact</a>
 
-      <div class="support-links">
+      <a href="privacy.html" target="_blank" rel="noopener noreferrer">
+        Privacy
+      </a>
+
+      <span class="badge">
         <a
-          href="https://www.amazon.com/?tag=YOUR_AFFILIATE_TAG"
+          href="https://www.nxgntools.com/tools/dealpal?utm_source=dealpal"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
         >
-          Shop on Amazon (supports DealPal)
+          <img
+            src="https://www.nxgntools.com/api/embed/dealpal?type=FEATURED_ON"
+            alt="Featured on NextGen Tools"
+          />
         </a>
-
-        <a
-          href="https://ko-fi.com/YOUR_KOFI_ID"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Donate on Ko-fi
-        </a>
-      </div>
-
-      <p style="font-size:14px; margin-top:12px;">
-        Affiliate disclosure: links to Amazon include an affiliate tag that supports
-        DealPal at no extra cost to you.
-      </p>
+      </span>
     </div>
+  </footer>
 
-    <footer>
-      <p>
-        Contact:
-        <a href="mailto:FrancisErdman@mailfence.com">
-          FrancisErdman@mailfence.com
-        </a>
-      </p>
-      <p>© 2025 Northbridge Digital LLC</p>
-    </footer>
-
-  </div>
 </body>
 </html>
