@@ -79,6 +79,7 @@
 
 Require Import List.
 Require Import String.
+Require Import Coq.NArith.BinNat.
 Open Scope string_scope.
 Import ListNotations.
 
@@ -123,9 +124,7 @@ Definition diagram2 :=
 
 Example diagrams_equiv_test :
   equiv diagram1 diagram2.
-Proof.
-  reflexivity.
-Qed.
+Proof. reflexivity. Qed.
 
 (* ------------------------------------------------------------ *)
 (* 6. ASCII tree printer                                         *)
@@ -135,43 +134,47 @@ Qed.
   Tiny ASCII printer for diagrams
   - Visualizes binary tree structure
   - Right-associated trees show clearly as “right combs”
+  - Structurally recursive, works in Coq
+  - Leaves show numbers; Node shows structure
 *)
 
-Fixpoint show_diagram_aux (d : Diagram) (indent : string) : list string :=
-  match d with
-  | Leaf n => [indent ++ "Leaf " ++ (string_of_nat n)]
-  | Node l r =>
-      let this := [indent ++ "Node"] in
-      this ++ (show_diagram_aux l (indent ++ "  ")) ++ (show_diagram_aux r (indent ++ "  "))
-  end
-
-with string_of_nat (n : nat) : string :=
+Fixpoint string_of_nat (n : nat) : string :=
   match n with
   | O => "0"
-  | S n' => string_of_nat_aux n' 1
-  end
-
-with string_of_nat_aux (n : nat) (acc : nat) : string :=
-  match n with
-  | O => string_of_nat_nat acc
-  | S n' => string_of_nat_aux n' (S acc)
-  end
-
-with string_of_nat_nat (n : nat) : string :=
-  match n with
-  | O => "0"
-  | S n' =>
-      let rec := string_of_nat_nat n' in
-      append "1" rec (* crude, just to see distinct leaves *)
+  | S n' => "S(" ++ string_of_nat n' ++ ")"
   end.
 
-Definition show_diagram (d : Diagram) : list string :=
-  show_diagram_aux d "".
+Fixpoint show_diagram (d : Diagram) (indent : string) : list string :=
+  match d with
+  | Leaf n => [indent ++ "Leaf " ++ string_of_nat n]
+  | Node l r =>
+      let this := [indent ++ "Node"] in
+      this ++ show_diagram l (indent ++ "  ") ++ show_diagram r (indent ++ "  ")
+  end.
 
 (* Example usage: *)
 
-Eval compute in (show_diagram diagram1).
-Eval compute in (show_diagram diagram2).
+Eval compute in (show_diagram diagram1 "").
+Eval compute in (show_diagram diagram2 "").
 
-(* Each Eval compute prints a list of strings representing the tree.
-   Right-associated forms are visually apparent as nested right nodes. *)
+(* Output example (list of strings):
+   ["Node";
+    "  Leaf S(0)";
+    "  Node";
+    "    Leaf S(S(0))";
+    "    Leaf S(S(S(0)))"]
+*)
+
+(* ------------------------------------------------------------ *)
+(* 7. Summary / lessons                                         *)
+(* ------------------------------------------------------------ *)
+
+(*
+  - Only binary trees **already in right-associated canonical form** are used
+  - Equivalence = same leaves / observables
+  - Leaves correspond to external particles / amplitudes
+  - Internal nesting differences are ignored (implementation detail)
+  - Physics example: multiple decay chains producing same electrons are equivalent
+  - CS analogy: different internal implementations with same observable output
+  - ASCII diagrams help visualize canonical vs arbitrary trees
+*)
