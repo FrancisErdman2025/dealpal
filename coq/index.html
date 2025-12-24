@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Diagrams Equiv - HoTT & Twistor String Tribute</title>
+    
+    <!-- Crisp Favicon for all resolutions -->
+    <link rel="icon" type="image/png" sizes="any" href="guitar.png">
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,14 +52,25 @@
             gap: 10px;
             font-size: 1.8em;
         }
+        .heading-with-guitars img {
+            height: 1.5em;
+        }
+        pre.ascii-tree {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Courier New", monospace;
+            font-size: 0.95em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="heading-with-guitars">
-            <span>🎸</span>
+            <img src="guitar.png" alt="Guitar Left">
             <span>Just a Tribute to Twistor String Theory & HoTT</span>
-            <span>🎸</span>
+            <img src="guitar.png" alt="Guitar Right">
         </h1>
 
         <p class="playful">Channeling Jack Black: This is not the ultimate Feynman diagram model in HoTT, but a playful tribute / starting point exploring the idea.</p>
@@ -69,6 +84,19 @@
 
         <p>
             Long-term motivation: Homotopy Type Theory (HoTT) might provide a framework to represent twistor string theory Feynman diagrams as homotopy types. This project is a playful first step in that direction.
+        </p>
+
+        <h2>ASCII Diagram Example</h2>
+        <p>Here is an example of a right-associated binary tree representing a simple diagram with three leaves:</p>
+        <pre class="ascii-tree">
+          Node
+         /    \
+       Leaf1  Node
+             /    \
+          Leaf2   Leaf3
+        </pre>
+        <p>
+            In this toy model, two diagrams with the same set of leaves (even if their internal structure differs) are considered equivalent.
         </p>
 
         <h2>Explore the Code</h2>
