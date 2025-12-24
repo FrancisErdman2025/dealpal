@@ -113,9 +113,14 @@
         <h2>Quick Start</h2>
         <ol>
             <li>Install <a href="https://coq.inria.fr/download" target="_blank">Coq</a>.</li>
-            <li>Open <code>diagrams_equiv.v</code> in CoqIDE or VS Code with Coq extension.</li>
-            <li>Step through interactively (Coq -> Step Forward) to see examples, unit tests, and the ASCII tree printer.</li>
-            <li>To compile the file from the command line, run: <code>coqc diagrams_equiv.v</code>. This produces a compiled <code>.vo</code> file in the same folder.</li>
+            <li>Open <code>diagrams_equiv.v</code> in CoqIDE or VS Code with the Coq extension.</li>
+            <li>Compile the file:
+                <ul>
+                    <li>In CoqIDE: Navigate to <strong>Compile → Compile Buffer</strong> to compile. A <code>.vo</code> file will be created in the same folder if compilation succeeds.</li>
+                    <li>From the command line: run <code>coqc diagrams_equiv.v</code>. A <code>.vo</code> file will be generated if compilation succeeds.</li>
+                </ul>
+            </li>
+            <li>Step through the file interactively (Coq → Step Forward) to see examples, unit tests, and the ASCII tree printer in action.</li>
         </ol>
 
         <footer>
