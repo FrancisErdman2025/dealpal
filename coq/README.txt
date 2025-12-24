@@ -23,14 +23,13 @@ Diagram:
 - Binary tree representing a simplified Feynman diagram
 - Leaf n  = external particle labeled n
 - Node d1 d2 = combination of two subdiagrams
-- Only **right-associated trees** are used in analysis:
-    - All internal nesting goes to the right
-    - Arbitrary trees must first be normalized to right-associated form before equivalence comparison
+- Only **right-associated trees** are used
+- Arbitrary trees must first be normalized to canonical form
 
 Right-associated canonical form:
 Example with 3 leaves (1, 2, 3):
 
-Arbitrary nesting (not canonical):
+Arbitrary nesting:
 
       Node
      /    \
@@ -38,7 +37,7 @@ Arbitrary nesting (not canonical):
   /    \
  1      2
 
-Right-associated canonical form (canonical representative):
+Right-associated canonical form:
 
       Node
      /    \
@@ -47,27 +46,25 @@ Right-associated canonical form (canonical representative):
         2     3
 
 - Both trees have the same leaves: [1;2;3]  
-- The right-associated form is **required** for equivalence checking  
+- Right-associated form is **required** for equivalence checking  
 
 ------------------------------------------------------------
 Leaves function
 
-- Extracts the observable external particles:
-
 leaves : Diagram -> list nat
-- Physics analogy: external states / amplitude inputs  
-- CS analogy: public API output  
+- Extracts the observable external particles
+- Physics analogy: external states / amplitude inputs
+- CS analogy: public API output
 
 ------------------------------------------------------------
 Equivalence
 
-- Two diagrams are equivalent if they have the **same leaves** (observable output).  
-- Internal node differences are ignored after canonicalization.  
-- Physics analogy: different Feynman diagrams may have different internal propagators or decay chains, but the **same final external particles** yield the same amplitude / S-matrix element.  
-- CS analogy: different implementations that produce the same API output.
+Two diagrams are equivalent if they have the **same leaves** (observable output).  
 
-------------------------------------------------------------
-Example
+- Physics analogy: different Feynman diagrams may have different intermediate decays, but the same final external particles yield the same amplitude / S-matrix element.  
+- CS analogy: different implementations that produce the same output.  
+
+Example:
 
 diagram1 = Node (Leaf 1) (Node (Leaf 2) (Leaf 3))
 diagram2 = Node (Node (Leaf 1) (Leaf 2)) (Leaf 3)
@@ -75,29 +72,33 @@ diagram2 = Node (Node (Leaf 1) (Leaf 2)) (Leaf 3)
 Eval compute in (leaves diagram1)  (* [1;2;3] *)
 Eval compute in (leaves diagram2)  (* [1;2;3] *)
 
+Unit test:
+
 Example diagrams_equiv_test :
 equiv diagram1 diagram2.
 Proof.
   reflexivity.
 Qed.
 
-- Both diagrams are right-associated
-- Leaves are identical, so equivalence holds
-- This models multiple Feynman diagrams with the same observable final states but potentially different intermediate decays:
+------------------------------------------------------------
+ASCII Tree Printer
 
-Example ASCII illustration:
+- `show_diagram` prints a diagram as a list of strings in ASCII form
+- Shows the tree structure visually; right-associated trees appear as “right combs”
+- Example usage:
 
-  Meson decay 1:     Meson decay 2:
+Eval compute in (show_diagram diagram1 "").
+Eval compute in (show_diagram diagram2 "").
 
-       M                  M
-      / \                / \
-     A   B              X   Y
-    / \                  \
-   e   e                  e
+Output example (list of strings):
 
-- Both produce final electrons (leaves = [e,e])
-- Internal structure differs
-- Our toy model treats them as equivalent
+["Node";
+ "  Leaf S(0)";
+ "  Node";
+ "    Leaf S(S(0))";
+ "    Leaf S(S(S(0)))"]
+
+- Useful for visualizing canonical vs arbitrary tree structure
 
 ------------------------------------------------------------
 CS Analogy
@@ -127,6 +128,7 @@ Getting Started
 3. Open diagrams_equiv.v in CoqIDE (or VS Code with Coq extension)  
 4. Step through interactively (Coq -> Step Forward) to see Eval compute outputs  
 5. Compile buffer (Compile -> Compile Buffer) to verify all unit tests pass  
+6. Use `show_diagram diagram_name ""` to visualize tree structures
 
 ------------------------------------------------------------
 Notes / Disclaimer
