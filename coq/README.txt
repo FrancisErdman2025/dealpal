@@ -4,16 +4,16 @@
 
 Inspired by Jack Black’s “Greatest Song in the World,” this Coq code is not the ultimate model of twistor string theory Feynman diagrams as homotopy types, but it’s a playful toy tribute / starting point.  
 
-It lets you explore the idea that diagrams with different internal structure can be equivalent if they produce the same observable result — in other words, different “internal arrangements” can yield the same amplitude.
+It models diagrams as **right-associated binary trees** and explores the idea that different internal structures can yield the same observable outcome.
 
 ------------------------------------------------------------
 Overview
 ------------------------------------------------------------
 
-- Diagrams are modeled as right-associated binary trees.
-- Equivalence is defined via observable leaves (external particles / amplitudes).
-- Internal node structure is ignored, focusing on what’s externally observable.
-- Right-association ensures a canonical form so reasoning is straightforward.
+- Only **right-associated binary trees** are considered as canonical representatives.  
+- Equivalence is defined via **observable leaves** (external particles / amplitudes).  
+- Internal node structure is ignored once canonical form is chosen.  
+- Right-association ensures a **unique representative** and simplifies reasoning.
 
 ------------------------------------------------------------
 Key Concepts
@@ -23,13 +23,14 @@ Diagram:
 - Binary tree representing a simplified Feynman diagram
 - Leaf n  = external particle labeled n
 - Node d1 d2 = combination of two subdiagrams
+- Only **right-associated trees** are used in analysis:
+    - All internal nesting goes to the right
+    - Arbitrary trees must first be normalized to right-associated form before equivalence comparison
 
 Right-associated canonical form:
-To simplify reasoning, we represent diagrams as “right combs”:
-
 Example with 3 leaves (1, 2, 3):
 
-Arbitrary nesting:
+Arbitrary nesting (not canonical):
 
       Node
      /    \
@@ -37,7 +38,7 @@ Arbitrary nesting:
   /    \
  1      2
 
-Right-associated canonical form:
+Right-associated canonical form (canonical representative):
 
       Node
      /    \
@@ -45,25 +46,25 @@ Right-associated canonical form:
          /   \
         2     3
 
-- Both trees have the same leaves: [1;2;3]
-- Right-association = canonical representative of each equivalence class
-- Leaves order is preserved; only internal node grouping changes
+- Both trees have the same leaves: [1;2;3]  
+- The right-associated form is **required** for equivalence checking  
 
 ------------------------------------------------------------
 Leaves function
 
+- Extracts the observable external particles:
+
 leaves : Diagram -> list nat
-- Extracts the observable external particles
-- Physics analogy: external states / amplitude inputs
-- CS analogy: public API output
+- Physics analogy: external states / amplitude inputs  
+- CS analogy: public API output  
 
 ------------------------------------------------------------
 Equivalence
 
-Two diagrams are equivalent if they have the same observable leaves:
-
-- Ignores internal structure
-- Mirrors physics intuition: same external particles -> same amplitude / S-matrix
+- Two diagrams are equivalent if they have the **same leaves** (observable output).  
+- Internal node differences are ignored after canonicalization.  
+- Physics analogy: different Feynman diagrams may have different internal propagators or decay chains, but the **same final external particles** yield the same amplitude / S-matrix element.  
+- CS analogy: different implementations that produce the same API output.
 
 ------------------------------------------------------------
 Example
@@ -80,45 +81,60 @@ Proof.
   reflexivity.
 Qed.
 
-- Trees are nested differently, but observable leaves match
-- Unit test passes with reflexivity
+- Both diagrams are right-associated
+- Leaves are identical, so equivalence holds
+- This models multiple Feynman diagrams with the same observable final states but potentially different intermediate decays:
+
+Example ASCII illustration:
+
+  Meson decay 1:     Meson decay 2:
+
+       M                  M
+      / \                / \
+     A   B              X   Y
+    / \                  \
+   e   e                  e
+
+- Both produce final electrons (leaves = [e,e])
+- Internal structure differs
+- Our toy model treats them as equivalent
 
 ------------------------------------------------------------
 CS Analogy
 
-- Tree = internal implementation / private detail
-- Leaves = public API / observable output
-- Equivalence = same API output
-- Right-associated tree = canonical implementation to simplify reasoning
+- Tree = internal implementation / private detail  
+- Leaves = public API / observable output  
+- Equivalence = same observable output  
+- Right-associated tree = canonical implementation to simplify reasoning  
 
 ------------------------------------------------------------
 Physics Analogy
 
-- Different Feynman diagrams can have the same external particles
-- Leaves = external particles / observable states
-- Internal nodes = propagators (implementation details)
-- Right-associated tree = canonical representative for reasoning about equivalence
+- Different Feynman diagrams can produce the same final external particles  
+- Leaves = external particles / observable states  
+- Internal nodes = propagators (intermediate states)  
+- Right-associated tree = canonical representative for reasoning about equivalence  
 
 ------------------------------------------------------------
 Getting Started
 
-1. Install Coq: https://coq.inria.fr/download
+1. Install Coq: https://coq.inria.fr/download  
 2. Clone the repository:
 
    git clone https://github.com/FrancisErdman2025/dealpal.git
    cd dealpal/coq
 
-3. Open diagrams_equiv.v in CoqIDE (or VS Code with Coq extension)
-4. Step through interactively (Coq -> Step Forward) to see Eval compute outputs
-5. Compile buffer (Compile -> Compile Buffer) to verify all unit tests pass
+3. Open diagrams_equiv.v in CoqIDE (or VS Code with Coq extension)  
+4. Step through interactively (Coq -> Step Forward) to see Eval compute outputs  
+5. Compile buffer (Compile -> Compile Buffer) to verify all unit tests pass  
 
 ------------------------------------------------------------
 Notes / Disclaimer
 
-- Toy model / playground, not production physics or full twistor string theory
-- Inspired by HoTT, but simplified for CS intuition
-- Right-associated canonical form is chosen purely for clarity
-- Leaves = amplitude analogy is simplified, but conceptually captures the idea that internal differences can be irrelevant if external outcomes are the same
+- Toy model / playground; not production physics or full twistor string theory  
+- Inspired by HoTT, simplified for CS intuition  
+- Only right-associated trees are used for equivalence  
+- Leaves = amplitude analogy is simplified, but captures the concept that different internal diagrams can yield the same observable outcome  
 
 ------------------------------------------------------------
 License
