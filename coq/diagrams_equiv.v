@@ -3,22 +3,74 @@
   diagrams_equiv.v
   ============================================================
 
-  This file is intentionally SIMPLE.
+  This file models Feynman-like diagrams using binary trees.
 
-  Goal:
-    Model the idea that two Feynman-like diagrams are
-    "physically equivalent" if they produce the same
-    observable outcome (same amplitude).
+  ============================================================
+  HIGHLY DETAILED CS-FRIENDLY COMMENTS
+  ============================================================
 
-  We DO NOT attempt to prove deep structural theorems.
-  Instead, we define equivalence at the observable level.
+  1. Goal
 
-  Think "API contract", not "implementation details".
+  - Model diagrams as binary trees, but NOT arbitrary trees
+  - Select a **canonical form** (right-associated) for each tree
+    to make reasoning about equivalence easy
+  - Define **equivalence** via leaves (observable particles)
+  - Leaves = “external particles” = observable output = amplitude
+  - Internal nesting = internal propagators = implementation details
 
-  Audience:
-    - CS background
-    - Lay familiarity with physics and HoTT ideas
-    - No advanced category theory or QFT required
+  ============================================================
+  2. Binary tree / right-associated intuition
+
+  Suppose we have 3 leaves: 1, 2, 3
+
+  Arbitrary nesting (internal nodes can be on left or right):
+
+      Node
+     /    \
+   Node     3
+  /    \
+ 1      2
+
+  In Coq code:
+
+  Node (Node (Leaf 1) (Leaf 2)) (Leaf 3)
+
+  Right-associated canonical form (“right comb”):
+
+      Node
+     /    \
+    1     Node
+         /   \
+        2     3
+
+  In Coq code:
+
+  Node (Leaf 1) (Node (Leaf 2) (Leaf 3))
+
+  Key points:
+
+  - Both trees have the same leaves: [1;2;3]
+  - We pick **right-associated form** as canonical
+  - All internal nesting goes **to the right**
+  - Equivalence class = all trees with same leaves
+
+  ============================================================
+  3. CS analogy
+
+  - Tree = implementation / internal structure
+  - Leaves = public API / observable output
+  - Equivalence = same observable output
+  - Right-associated canonical tree = pick **one standard implementation**
+    so that proofs, normalization, and equality checks are simple
+
+  ============================================================
+  4. Physics analogy
+
+  - Feynman diagrams may differ internally (propagators) but have same external particles
+  - Leaves = external particles
+  - Two diagrams with same leaves = same amplitude / S-matrix element
+  - Right-associated tree = canonical representative for reasoning
+
 *)
 
 (* ------------------------------------------------------------ *)
@@ -29,37 +81,38 @@ Require Import List.
 Import ListNotations.
 
 (* ------------------------------------------------------------ *)
-(* 1. A toy data type for "diagrams"                            *)
+(* 1. Diagram data type                                         *)
 (* ------------------------------------------------------------ *)
 
 (*
-  Think of this as a VERY simplified Feynman diagram.
+  Binary tree representation of diagrams
+  - Leaf n       : external particle labeled n
+  - Node d1 d2   : internal combination of two subdiagrams
 
-  - Leaf n       : an external leg / particle labeled by n
-  - Node d1 d2   : composition of two subdiagrams
-
-  This is just a binary tree.
+  IMPORTANT:
+  We are only selecting trees that can be **right-associated**
+  to form a canonical representative.
+  This does NOT restrict the code, but is how we reason about equivalence.
 *)
 Inductive Diagram : Type :=
 | Leaf : nat -> Diagram
 | Node : Diagram -> Diagram -> Diagram.
 
 (* ------------------------------------------------------------ *)
-(* 2. Observable: "leaves"                                      *)
+(* 2. Observable leaves function                                 *)
 (* ------------------------------------------------------------ *)
 
 (*
   leaves : Diagram -> list nat
+  Extracts the “observable” part of the diagram
 
-  This function extracts the "observable content" of a diagram.
-
-  Physics intuition:
+  Physics analogy:
     - Leaves correspond to external particles
-    - The list of leaves corresponds to the amplitude inputs
+    - Sequence of leaves represents amplitude inputs
 
-  CS intuition:
-    - This is the PUBLIC API
-    - Internal structure is private implementation detail
+  CS analogy:
+    - Leaves = public API / observable output
+    - Internal tree structure is private implementation
 *)
 Fixpoint leaves (d : Diagram) : list nat :=
   match d with
@@ -68,17 +121,9 @@ Fixpoint leaves (d : Diagram) : list nat :=
   end.
 
 (* ------------------------------------------------------------ *)
-(* 3. Print / inspect example (interactive use)                 *)
+(* 3. Example diagrams and evaluation                           *)
 (* ------------------------------------------------------------ *)
 
-(*
-  This is NOT a runtime print.
-  It is evaluated by Coq during interactive stepping.
-
-  To see output:
-    - Use CoqIDE
-    - Step Forward through this line
-*)
 Definition example_diagram :=
   Node (Leaf 10) (Node (Leaf 20) (Leaf 30)).
 
@@ -88,44 +133,36 @@ Eval compute in (leaves example_diagram).
 *)
 
 (* ------------------------------------------------------------ *)
-(* 4. Equivalence = same observable                             *)
+(* 4. Equivalence definition                                     *)
 (* ------------------------------------------------------------ *)
 
 (*
-  This is the KEY DESIGN DECISION.
+  Two diagrams are equivalent if they have the SAME observable leaves
 
-  Two diagrams are equivalent IF AND ONLY IF
-  they have the same observable leaves.
+  Physics analogy:
+    - Two diagrams with same external particles produce same amplitude
 
-  Physics intuition:
-    - Same amplitude
-    - Same S-matrix element
-    - Same external states
-
-  CS intuition:
-    - Observational equivalence
-    - Same API output
+  CS analogy:
+    - Two implementations produce same API output
+    - Internal differences are ignored
 *)
 Definition equiv (d1 d2 : Diagram) : Prop :=
   leaves d1 = leaves d2.
 
 (* ------------------------------------------------------------ *)
-(* 5. Two structurally different diagrams                       *)
+(* 5. Example: two differently nested diagrams                  *)
 (* ------------------------------------------------------------ *)
 
-(*
-  These diagrams look different internally,
-  but should be physically equivalent.
-*)
-
+(* Arbitrary nesting *)
 Definition diagram1 :=
   Node (Leaf 1) (Node (Leaf 2) (Leaf 3)).
 
+(* Left-heavy nesting *)
 Definition diagram2 :=
   Node (Node (Leaf 1) (Leaf 2)) (Leaf 3).
 
 (* ------------------------------------------------------------ *)
-(* 6. Inspect their observables                                 *)
+(* 6. Inspect observables                                       *)
 (* ------------------------------------------------------------ *)
 
 Eval compute in (leaves diagram1).
@@ -135,17 +172,12 @@ Eval compute in (leaves diagram2).
 (* = [1; 2; 3] *)
 
 (* ------------------------------------------------------------ *)
-(* 7. "Unit test": equivalence proof                            *)
+(* 7. Unit test for equivalence                                  *)
 (* ------------------------------------------------------------ *)
 
 (*
-  This is the Coq equivalent of a unit test.
-
-  Because equiv is DEFINED as equality of leaves,
-  and both sides reduce to the same list,
-  reflexivity is enough.
-
-  If this compiles, the test passes.
+  Reflexivity works because our equivalence is defined
+  as equality of leaves. Both diagrams reduce to the same list.
 *)
 Example diagrams_equiv_test :
   equiv diagram1 diagram2.
@@ -154,24 +186,20 @@ Proof.
 Qed.
 
 (* ------------------------------------------------------------ *)
-(* 8. What this file demonstrates                               *)
+(* 8. Summary / lessons                                         *)
 (* ------------------------------------------------------------ *)
 
 (*
-  ✔ We abstracted away internal structure
-  ✔ We defined equivalence via observables
-  ✔ We avoided fragile inductive proofs
-  ✔ We enforced the abstraction with the type system
-
-  This is EXACTLY how one would begin a:
-    - HoTT quotient construction
-    - Gauge equivalence model
-    - Amplitude-level classification
-    - Formalization project in a proof assistant
+  - Only binary trees with **right-associated canonical form** are used
+  - Equivalence = same leaves / observables
+  - Leaves correspond to external particles / amplitudes
+  - Internal nesting is ignored (implementation detail)
+  - This matches both CS and physics intuitions
+  - ASCII diagrams above help visualize canonical vs arbitrary trees
 
   Future extensions (optional):
-    - Add rewrite rules that preserve leaves
-    - Define normalization functions
-    - Upgrade equiv to HoTT-style paths
-    - Replace nat with particle labels
+    - Introduce rewrite rules preserving leaves
+    - Define normalization to canonical form
+    - Upgrade equiv to HoTT paths
+    - Replace nat labels with structured particle types
 *)
