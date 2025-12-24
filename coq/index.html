@@ -41,11 +41,22 @@
             font-size: 0.9em;
             color: #666;
         }
+        .heading-with-guitars {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.8em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎸 "Just a Tribute" to Twistor String Theory & HoTT 🎸</h1>
+        <h1 class="heading-with-guitars">
+            <span>🎸</span>
+            <span>Just a Tribute to Twistor String Theory & HoTT</span>
+            <span>🎸</span>
+        </h1>
 
         <p class="playful">Channeling Jack Black: This is not the ultimate Feynman diagram model in HoTT, but a playful tribute / starting point exploring the idea.</p>
 
@@ -70,7 +81,7 @@
         <ol>
             <li>Install <a href="https://coq.inria.fr/download" target="_blank">Coq</a>.</li>
             <li>Open <code>diagrams_equiv.v</code> in CoqIDE or VS Code with Coq extension.</li>
-            <li>Step through the code interactively to see examples, unit tests, and the ASCII tree printer.</li>
+            <li>Step through interactively (Coq -> Step Forward) to see examples, unit tests, and the ASCII tree printer.</li>
         </ol>
 
         <p>
